@@ -1,1 +1,34 @@
+name: Deploy Back End (BE) - PHP/Node Placeholder
 
+on:
+  push:
+    branches:
+      - main # Hoặc master
+    paths:
+      - 'backend/**' # Chỉ chạy khi có thay đổi trong thư mục 'backend'
+
+jobs:
+  deploy-be:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout code
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js (Cho các lệnh npm test)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 3. Run npm test (CI)
+        run: npm test # Chạy lệnh test trong backend/package.json
+        working-directory: ./backend
+
+      # BƯỚC TRIỂN KHAI FTP
+      - name: 4. Deploy via FTP (CD)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.BE_FTP_SERVER }}
+          username: ${{ secrets.BE_FTP_USERNAME }}
+          password: ${{ secrets.BE_FTP_PASSWORD }}
+          local-dir: ./backend/ # Đẩy toàn bộ thư mục code BE
+          server-dir: /htdocs/ # Thư mục đích trên InfinityFree
