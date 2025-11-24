@@ -1,1 +1,14 @@
-
+{
+    "name": "frontend-app",
+    "version": "1.0.0",
+    "description": "Front End Placeholder",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo 'Running FE tests...' && exit 0", 
+      "build": "echo 'Building FE code...' && mkdir build",
+      "start": "node index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
